@@ -1,0 +1,10 @@
+rootProject.name = 'root'
+
+include 'user'
+include 'common'
+include 'gateway'
+include 'product'
+include 'eureka'
+include 'api'
+include 'productbatch'
+

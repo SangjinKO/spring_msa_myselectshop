@@ -1,0 +1,40 @@
+# Maven 관련 파일/폴더
+target/
+*.jar
+*.war
+*.ear
+
+# Gradle 관련 파일/폴더
+.gradle/
+build/
+!gradle-wrapper.jar
+
+# IDE 설정 파일
+# IntelliJ IDEA
+*.iml
+.idea/
+*.ipr
+*.iws
+out/
+
+# Eclipse
+*.classpath
+*.project
+*.settings/
+
+# OS 관련
+.DS_Store
+Thumbs.db
+
+# 로그 파일
+*.log
+
+# 환경 설정 파일
+*.env
+
+# 특정 파일 제외 규칙
+*-secret.*
+
+# Spring Boot 관련
+spring.log
+

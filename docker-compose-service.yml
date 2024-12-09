@@ -1,0 +1,49 @@
+services:
+  eureka:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - FILE_DIRECTORY=eureka
+    ports:
+      - "19090:19090"
+
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - FILE_DIRECTORY=gateway
+    ports:
+      - "19091:19091"
+
+  user:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - FILE_DIRECTORY=user
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - FILE_DIRECTORY=api
+
+  product:
+   build:
+     context: .
+     dockerfile: Dockerfile
+     args:
+       - FILE_DIRECTORY=product
+
+  productbatch:
+   build:
+     context: .
+     dockerfile: Dockerfile
+     args:
+       - FILE_DIRECTORY=productbatch
+
+
+#docker compose -f docker-compose-service.yml down --rmi all --volumes --remove-orphans
+#docker builder prune --all

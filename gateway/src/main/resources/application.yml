@@ -1,0 +1,51 @@
+server:
+  port: 19091 # 게이트웨이 서비스가 실행될 포트 번호
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:19090/eureka/
+#eureka.client.service-url.defaultZone: http://localhost:19090/eureka/
+#eureka.instance.prefer-ip-address=true
+
+spring:
+#  main:
+#    web-application-type: reactive  # Spring 애플리케이션이 리액티브 웹 애플리케이션으로 설정됨
+  application:
+    name: gateway  # 애플리케이션 이름을 'gateway-service'로 설정
+  profiles:
+    include: secret
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  cloud:
+    gateway:
+      routes:  # Spring Cloud Gateway의 라우팅 설정
+        - id: user  # 라우트 식별자
+          uri: lb://user  # 'auth'라는 이름으로 로드 밸런싱된 서비스로 라우팅
+          predicates:
+            - Path=/api/auth/** # 경로로 들어오는 요청을 이 라우트로 처리
+        - id: products
+          uri: lb://products
+          predicates:
+            - Path=/api/products/**,/api/productsAll/**,/api/folders/**,/api/product-search/**
+        - id: api
+          uri: lb://api
+          predicates:
+            - Path=/api/search/**
+        - id: productbatch
+          uri: lb://productbatch
+          predicates:
+            - Path=/api/batch/**
+      discovery:
+        locator:
+          enabled: true  # 서비스 디스커버리를 통해 동적으로 라우트를 생성하도록 설정
+
+
+
+jwt:
+  secret:
+    key: ${JWT_SECRET_KEY}
+
+

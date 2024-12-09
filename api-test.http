@@ -1,0 +1,87 @@
+### 회원가입
+POST http://localhost:19091/api/auth/signup
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "user1",
+  "email": "user1@gmail.com",
+  "admin": false,
+  "adminToken": ""
+}
+
+### 로그인
+POST http://localhost:19091/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "user1"
+}
+
+### JWT 토큰을 변수에 저장 (IntelliJ 환경에서 자동 변수 사용)
+@auth_token = Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsImF1dGgiOiJVU0VSIiwiZXhwIjoxNzMzNTk0NDY3LCJpYXQiOjE3MzM1OTA4Njd9.8JjtnXCQxecblnZmHhmsjY2CKVCsB7MJxURTiQofPUs}
+
+### 상품 조회(네이버)
+GET http://localhost:19091/api/search/naver?query=macbook
+Authorization: {{auth_token}}
+
+### 상품 조회(네이버) --> 프로덕트를 통해 호출(FeignClient)
+GET http://localhost:19091/api/product-search?query=macbook
+Authorization: {{auth_token}}
+
+### 관심상품 등록
+POST http://localhost:19091/api/products
+Authorization: {{auth_token}}
+Content-Type: application/json
+
+{
+  "title": "[대여] <b>맥북</b> 에어 M1 대여 영상편집 디자인 작업용 서울 송파 1일 렌탈",
+  "link": "https://smartstore.naver.com/main/products/7762969451",
+  "image": "https://shopping-phinf.pstatic.net/main_8530746/85307469773.11.jpg",
+  "lprice": 7900
+}
+
+### 관심상품 조회
+GET http://localhost:19091/api/productsAll
+Authorization: {{auth_token}}
+
+### 관심상품 최저가 변경
+PUT http://localhost:19091/api/products/1
+Authorization: {{auth_token}}
+Content-Type: application/json
+
+{
+  "myprice": 100000
+}
+
+### 폴더 등록
+POST http://localhost:19091/api/folders
+Authorization: {{auth_token}}
+Content-Type: application/json
+
+{
+  "folderNames": ["folder1"]
+}
+
+### 폴더 조회
+GET http://localhost:19091/api/folders
+Authorization: {{auth_token}}
+
+### 관싱상품 폴더 등록
+POST http://localhost:19091/api/products/1/folder?folderId=1
+Authorization: {{auth_token}}
+
+### 회원이 등록한 폴더 내 모든 상품 조회(페이징)
+GET http://localhost:19091/api/folders/1/products?page=1&size=10&sortBy=userId&isAsc=true
+Authorization: {{auth_token}}
+
+### UpdateQueue: Kafka-Producer (상품가격 즉시 갱신)
+GET http://localhost:19091/api/products/update-price-kafka
+Authorization: {{auth_token}}
+
+### UpdateScheduler (상품가격 갱신 스케줄러) 테스트하기
+GET http://localhost:19091/api/batch/products/update-price-scheduler-test
+Authorization: {{auth_token}}
+
+### UpdateQueue: Kafka-Consumer (상품가격 즉시 갱신)
